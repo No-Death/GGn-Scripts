@@ -3,7 +3,7 @@
 # <center>Script Ideas</center>
 
 ## Torrents
-* Check if the steam game is currently available on GGn when browsing the steam store.
+* Check if the steam game is currently available on GGn when browsing the steam store. (Sidenote: Also extend this to be working on other gamestores)
 
 ## User Profile
 * Show/calculate what equipment to use to maximize current gold per hour.

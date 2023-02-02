@@ -14,7 +14,7 @@
 
 (function () {
   'use strict';
-  let lastFetch;
+  let lastFetch = GM_getValue('lastFetch');
   const userID = new URLSearchParams(location.search).get('id');
   const myUserID = new URLSearchParams(
     document.body.querySelector('#nav_userinfo a.username').search
@@ -24,8 +24,9 @@
     return;
   }
 
-  // Check if the API key exists and if its been more than 2 seconds since last call
+  // Check if the API key exists and if its been less than 2 seconds since last call
   if (apiKey && lastFetch && Date.now() - lastFetch < 2000) {
+    console.log('Most likely Ratelimited');
     return;
   }
 

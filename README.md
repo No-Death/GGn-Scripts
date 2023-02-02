@@ -6,7 +6,7 @@
 * Check if the steam game is currently available on GGn when browsing the steam store. (Sidenote: Also extend this to be working on other gamestores)
 
 ## User Profile
-* Show/calculate what equipment to use to maximize current gold per hour.
+* Show/calculate what equipment to use to maximize current gold per hour. *Basics done, need to make it prettier and maybe add some more info*
 
 ## Shop
 * None

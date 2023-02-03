@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         GazelleGames GPH Item Set Info
-// @version      0.1.1
+// @version      0.1.2
 // @description  Calculates which item set to use by the amount of GPH you currently have.
 // @author       Piitchyy
 // @namespace    https://github.com/No-Death/GGn-Scripts
@@ -20,7 +20,7 @@
   const myUserID = new URLSearchParams(
     document.body.querySelector('#nav_userinfo a.username').search
   ).get('id');
-  const apiKey = GM_getValue('apiKey');
+  let apiKey = GM_getValue('apiKey');
 
   // Will only work on your own profile (So we dont spam the API)
   if (userID !== myUserID) {
@@ -48,6 +48,15 @@
     },
 
     onload: function (response) {
+      // If the API returns 401, delete API key
+      if (response.status === 401) {
+        GM_deleteValue('apiKey');
+        alert(
+          `You entered the wrong API key for 'GazelleGames GPH Item Set Info' \nMake sure it uses the "USER" permissions.`
+        );
+        location.reload();
+      }
+      // API was correct, continue.
       const data = JSON.parse(response.responseText);
       const gph = data.response.community.hourlyGold;
       const buff = data.response.buffs.TorrentsGold;
@@ -71,14 +80,6 @@
       }
     },
     onerror: function (response) {
-      // If the API returns 401, delete API key
-      if (response.status === 401) {
-        GM_deleteValue('apiKey');
-        alert(
-          `You entered the wrong API key for 'GazelleGames GPH Item Set Info' \n Make sure it uses the "USER" permissions.`
-        );
-        location.reload();
-      }
       console.log('Something went wrong');
     },
   });

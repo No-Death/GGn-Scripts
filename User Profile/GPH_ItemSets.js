@@ -1,8 +1,9 @@
 // ==UserScript==
 // @name         GazelleGames GPH Item Set Info
-// @version      0.1.0
+// @version      0.1.1
 // @description  Calculates which item set to use by the amount of GPH you currently have.
 // @author       Piitchyy
+// @namespace    https://github.com/No-Death/GGn-Scripts
 // @match        https://gazellegames.net/user.php?id=*
 // @license      MIT
 // @grant        GM_getValue
@@ -14,12 +15,14 @@
 
 (function () {
   'use strict';
-  let lastFetch = GM_getValue('lastFetch');
+  const lastFetch = GM_getValue('lastFetch');
   const userID = new URLSearchParams(location.search).get('id');
   const myUserID = new URLSearchParams(
     document.body.querySelector('#nav_userinfo a.username').search
   ).get('id');
-  let apiKey = GM_getValue('apiKey');
+  const apiKey = GM_getValue('apiKey');
+
+  // Will only work on your own profile (So we dont spam the API)
   if (userID !== myUserID) {
     return;
   }
@@ -41,7 +44,7 @@
     method: 'GET',
     url: `https://gazellegames.net/api.php?request=user&id=${myUserID}`,
     headers: {
-      'X-API-Key': GM_getValue('apiKey'),
+      'X-API-Key': apiKey,
     },
 
     onload: function (response) {

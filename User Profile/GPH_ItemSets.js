@@ -51,17 +51,14 @@
       const baseGph = gph / buff;
       const box = document.querySelector('.box_gold .head');
       if (baseGph >= 980) {
-        box.append('Empowered Amethyst Set!');
         let currentText = document.querySelector('.box_gold .head').innerHTML;
         document.querySelector('.box_gold .head').innerHTML =
           currentText + ' Empowered Amethyst Set!';
       } else if (baseGph >= 180) {
-        box.append = 'Empowered Jade Set!';
         let currentText = document.querySelector('.box_gold .head').innerHTML;
         document.querySelector('.box_gold .head').innerHTML =
           currentText + ' Empowered Jade Set!';
       } else if (baseGph >= 20) {
-        box.append = 'Empowered Quertz Set!';
         let currentText = document.querySelector('.box_gold .head').innerHTML;
         document.querySelector('.box_gold .head').innerHTML =
           currentText + ' Empowered Quertz Set!';

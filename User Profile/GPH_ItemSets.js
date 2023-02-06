@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         GazelleGames GPH Item Set Info
-// @version      0.1.2
+// @version      0.1.3
 // @description  Calculates which item set to use by the amount of GPH you currently have.
 // @author       Piitchyy
 // @namespace    https://github.com/No-Death/GGn-Scripts
@@ -62,21 +62,19 @@
       const buff = data.response.buffs.TorrentsGold;
       const baseGph = gph / buff;
       const box = document.querySelector('.box_gold .head');
+      let currentText = document.querySelector('.box_gold .head').innerHTML;
       if (baseGph >= 980) {
-        let currentText = document.querySelector('.box_gold .head').innerHTML;
         document.querySelector('.box_gold .head').innerHTML =
           currentText + ' Empowered Amethyst Set!';
       } else if (baseGph >= 180) {
-        let currentText = document.querySelector('.box_gold .head').innerHTML;
         document.querySelector('.box_gold .head').innerHTML =
           currentText + ' Empowered Jade Set!';
       } else if (baseGph >= 20) {
-        let currentText = document.querySelector('.box_gold .head').innerHTML;
         document.querySelector('.box_gold .head').innerHTML =
-          currentText + ' Empowered Quertz Set!';
+          currentText + ' Empowered Quartz Set!';
       } else {
-        box.append = 'No sets needed!';
-        console.log('No sets needed!');
+        document.querySelector('.box_gold .head').innerHTML =
+          currentText + ' No set needed!';
       }
     },
     onerror: function (response) {

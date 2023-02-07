@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         GazelleGames GPH Item Set Info
-// @version      0.1.3
+// @version      0.2.0
 // @description  Calculates which item set to use by the amount of GPH you currently have.
 // @author       Piitchyy
 // @namespace    https://github.com/No-Death/GGn-Scripts
-// @match        https://gazellegames.net/user.php?id=*
+// @match        https://gazellegames.net/user.php?action=equipment
 // @license      MIT
 // @grant        GM_getValue
 // @grant        GM_setValue
@@ -16,16 +16,10 @@
 (function () {
   'use strict';
   const lastFetch = GM_getValue('lastFetch');
-  const userID = new URLSearchParams(location.search).get('id');
   const myUserID = new URLSearchParams(
     document.body.querySelector('#nav_userinfo a.username').search
   ).get('id');
   let apiKey = GM_getValue('apiKey');
-
-  // Will only work on your own profile (So we dont spam the API)
-  if (userID !== myUserID) {
-    return;
-  }
 
   // Check if the API key exists and if its been less than 2 seconds since last call
   if (apiKey && lastFetch && Date.now() - lastFetch < 2000) {
@@ -61,21 +55,26 @@
       const gph = data.response.community.hourlyGold;
       const buff = data.response.buffs.TorrentsGold;
       const baseGph = gph / buff;
-      const box = document.querySelector('.box_gold .head');
-      let currentText = document.querySelector('.box_gold .head').innerHTML;
+      const sidebar = document.getElementById('items_navigation');
+      let newhtml = '';
+      sidebar.innerHTML += '<br><h3>GPH Information</h3>';
+      newhtml += `<tr><td>Base GPH:</td> <td>${Math.trunc(baseGph)}</td></tr>`;
+      newhtml += `<tr><td>Buff GPH:</td> <td>${Math.trunc(gph)}</td></tr>`;
       if (baseGph >= 980) {
-        document.querySelector('.box_gold .head').innerHTML =
-          currentText + ' Empowered Amethyst Set!';
+        newhtml += `<tr><td>Set to use:</td> <td><a href="https://gazellegames.net/shop.php?search=empowered%20amethyst%20fortune&item_type=%5B%5D&cost_type=all&cost_amount=&order_by=dateadded&order_way=desc&category=All">Amethyst Set!</a></td></tr>`;
       } else if (baseGph >= 180) {
-        document.querySelector('.box_gold .head').innerHTML =
-          currentText + ' Empowered Jade Set!';
+        newhtml += `<tr><td>Set to use:</td> <td><a href="https://gazellegames.net/shop.php?search=empowered%20jade%20fortune&item_type=%5B%5D&cost_type=all&cost_amount=&order_by=dateadded&order_way=desc&category=All">Jade Set!</a></td></tr>`;
       } else if (baseGph >= 20) {
-        document.querySelector('.box_gold .head').innerHTML =
-          currentText + ' Empowered Quartz Set!';
+        newhtml += `<tr><td>Set to use:</td> <td><a href="https://gazellegames.net/shop.php?search=empowered%20quartz%20fortune&item_type=%5B%5D&cost_type=all&cost_amount=&order_by=dateadded&order_way=desc&category=All">Quartz Set!</a></td></tr>`;
       } else {
-        document.querySelector('.box_gold .head').innerHTML =
-          currentText + ' No set needed!';
+        newhtml += `<tr><td>Set to use:</td> <td>No set needed!</td></tr>`;
       }
+      newhtml += `<tr><td><a href="https://gazellegames.net/shop.php?ItemID=2582">Baguette?:</a></td> <td>${
+        baseGph >= 300 ? 'Yes' : 'No'
+      }</td></tr>`;
+
+      sidebar.innerHTML +=
+        `<table id="ggn_gph_information">` + newhtml + `</table>`;
     },
     onerror: function (response) {
       console.log('Something went wrong');

@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         GazelleGames GPH Item Set Info
-// @version      0.2.0
+// @version      0.2.1
 // @description  Calculates which item set to use by the amount of GPH you currently have.
 // @author       Piitchyy
 // @namespace    https://github.com/No-Death/GGn-Scripts

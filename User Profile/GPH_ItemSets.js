@@ -6,20 +6,20 @@
 // @namespace    https://github.com/No-Death/GGn-Scripts
 // @match        https://gazellegames.net/user.php?action=equipment
 // @license      MIT
-// @grant        GM_getValue
-// @grant        GM_setValue
-// @grant        GM_deleteValue
+// @grant        GM.getValue
+// @grant        GM.setValue
+// @grant        GM.deleteValue
 // @grant        GM_xmlhttpRequest
 // @run-at       document-end
 // ==/UserScript==
 
-(function () {
+(async function () {
   'use strict';
-  const lastFetch = GM_getValue('lastFetch');
+  const lastFetch = await GM.getValue('lastFetch');
   const myUserID = new URLSearchParams(
     document.body.querySelector('#nav_userinfo a.username').search
   ).get('id');
-  let apiKey = GM_getValue('apiKey');
+  let apiKey = await GM.getValue('apiKey');
 
   // Check if the API key exists and if its been less than 2 seconds since last call
   if (apiKey && lastFetch && Date.now() - lastFetch < 2000) {
@@ -30,7 +30,7 @@
   // Get the API key from the user
   if (!apiKey) {
     apiKey = prompt('Enter your API key with the "USER" permission').trim();
-    GM_setValue('apiKey', apiKey);
+    await GM.setValue('apiKey', apiKey);
   }
 
   // Start the API request
@@ -41,10 +41,10 @@
       'X-API-Key': apiKey,
     },
 
-    onload: function (response) {
+    onload: async function (response) {
       // If the API returns 401, delete API key
       if (response.status === 401) {
-        GM_deleteValue('apiKey');
+        await GM.deleteValue('apiKey');
         alert(
           `You entered the wrong API key for 'GazelleGames GPH Item Set Info' \nMake sure it uses the "USER" permissions.`
         );
@@ -81,5 +81,5 @@
     },
   });
   // Set the time when the request was made
-  GM_setValue('lastFetch', Date.now());
+  await GM.setValue('lastFetch', Date.now());
 })();

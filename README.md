@@ -6,7 +6,7 @@
 * ~~Check if the steam game is currently available on GGn when browsing the steam store. (Sidenote: Also extend this to be working on other gamestores)~~ Not possible at this time
 
 ## User Profile
-* 
+* None
 
 ## Shop
 * None

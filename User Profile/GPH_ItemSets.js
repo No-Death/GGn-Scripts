@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         GazelleGames GPH Item Set Info
-// @version      0.2.2
+// @version      0.2.3
 // @description  Calculates which item set to use by the amount of GPH you currently have.
 // @author       Piitchyy
 // @namespace    https://github.com/No-Death/GGn-Scripts
@@ -54,7 +54,10 @@
     // API was correct, continue.
   } else if (response.status === 200) {
     const data = await response.json();
-    const gph = data.response.community.hourlyGold;
+    const onIrc = data.response.stats.onIRC;
+    const gph = onIrc
+      ? data.response.community.hourlyGold - 13.5
+      : data.response.community.hourlyGold;
     const buff = data.response.buffs.TorrentsGold;
     const baseGph = gph / buff;
     const sidebar = document.getElementById('items_navigation');
